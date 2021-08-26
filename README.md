@@ -1,4 +1,7 @@
 # GenerateTranslations
 
 ## Usage
-`node index.js --src=example.xlsx`
+`
+npm i
+node index.js --src=example.xlsx
+`
