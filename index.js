@@ -1,5 +1,13 @@
 const XLSX = require("xlsx");
 const fs = require("fs");
+const argv = require("minimist")(process.argv.slice(2));
+
+const LANG = [
+  { code: "en", key: "English" },
+  { code: "de", key: "German" },
+  { code: "it", key: "Italian" },
+  { code: "fr", key: "French" },
+];
 
 const addDeepParameter = (obj, keys, value) => {
   let [key, ...restKeys] = keys;
@@ -11,16 +19,19 @@ const addDeepParameter = (obj, keys, value) => {
   return obj;
 };
 
-let dating_translations = XLSX.readFile("./dating.xlsx");
+if (!argv['src']) {
+  console.error("You must specified --src parameter");
+  return;
+}
+
+let dating_translations;
+try {
+  dating_translations = XLSX.readFile(argv['src']);
+} catch (error) {
+  console.error('Error while parsing source file')
+}
 
 let { Sheets, SheetNames } = dating_translations;
-
-const LANG = [
-  { code: "en", key: "English" },
-  { code: "de", key: "German" },
-  { code: "it", key: "Italian" },
-  { code: "fr", key: "French" },
-];
 
 let translations = {};
 
